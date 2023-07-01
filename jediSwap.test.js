@@ -98,7 +98,7 @@ describe('Jedi Swap test suite', () => {
         const reserve_0_final = reserves.reserve0;
         const reserve_1_final = reserves.reserve1;
 
-        const token_0_decimals = 12;
+        const token_0_decimals = 18;
         const token_0_multiplier = Math.pow(10, token_0_decimals)
         // console.log(token_0_multiplier)
 
@@ -106,17 +106,17 @@ describe('Jedi Swap test suite', () => {
 
         const args = { testAddress }
         const amount = { low: amount_token_0, high: 0 }
-        const amountOutMin = { low: 0, high: 0 }
+        const amountOutMin = { low: 1, high: 0 }
         const path = Array.from([ethTokenContract.address, usdcTokenContract.address]);
-        console.log(Array.isArray(path))
-        console.log(path)
-        console.log(typeof path)
+        // console.log(Array.isArray(path))
+        // console.log(path)
+        // console.log(typeof path)
 
         await ethTokenContract.approve(testAddress, amount)
 
-        const result= await JediSwapImplementationContract.swap_exact_tokens_for_tokens(amount, amountOutMin, [ethTokenContract.address, usdcTokenContract.address], account.address, 0)
+        const deadline = new Date().getTime() + 300 * 1000;
+        const result = await JediSwapImplementationContract.swap_exact_tokens_for_tokens(amount, amountOutMin, [ethTokenContract.address, usdcTokenContract.address], account.address, deadline)
         console.log(result)
-        // const amount1out = 
     })
     // it("should  add liquidity on ETH/USDC pool and assert increased balance in LP token in the caller address", async function () {
 
