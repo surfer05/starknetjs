@@ -31,6 +31,7 @@ describe('Jedi Swap test suite', () => {
 
         // Connecting the deployed JediSwap contract in Goerli Testnet
         testAddress = "0x02bcc885342ebbcbcd170ae6cafa8a4bed22bb993479f49806e72d96af94c965"
+        //              0x262744f8cea943dadc8823c318eaf24d0110dee2ee8026298f49a3bc58ed74a
         const contractClass = await provider.getClassAt(testAddress, 361046);
         if (contractClass.abi === undefined) { throw new Error("no abi.") };
         myTestContract = new Contract(contractClass.abi, testAddress, provider);
@@ -100,21 +101,17 @@ describe('Jedi Swap test suite', () => {
 
         const token_0_decimals = 18;
         const token_0_multiplier = Math.pow(10, token_0_decimals)
-        // console.log(token_0_multiplier)
-
-        const amount_token_0 = 1 * token_0_multiplier
-
-        const args = { testAddress }
+        const amount_token_0 = 2 * token_0_multiplier
         const amount = { low: amount_token_0, high: 0 }
+
+        await ethTokenContract.approve("0x054d853ee6f7f058a526928715ffbaea75bab1c23f8bfc4413ca92dfb16d8621", amount)
+        console.log(ethTokenContract.address)
+        console.log(usdcTokenContract.address)
+
         const amountOutMin = { low: 1, high: 0 }
         const path = Array.from([ethTokenContract.address, usdcTokenContract.address]);
-        // console.log(Array.isArray(path))
-        // console.log(path)
-        // console.log(typeof path)
-
-        await ethTokenContract.approve(testAddress, amount)
-
         const deadline = new Date().getTime() + 300 * 1000;
+        console.log(deadline)
         const result = await JediSwapImplementationContract.swap_exact_tokens_for_tokens(amount, amountOutMin, [ethTokenContract.address, usdcTokenContract.address], account.address, deadline)
         console.log(result)
     })

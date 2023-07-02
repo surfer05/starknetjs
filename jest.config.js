@@ -1,5 +1,5 @@
 // jest.config.js
 module.exports = {
     // ...
-    testTimeout: 20000
+    testTimeout: 200000
 }
